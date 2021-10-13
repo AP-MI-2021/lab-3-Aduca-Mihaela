@@ -1,7 +1,7 @@
 def print_menu():
     print("1. Citire lista")
     print("2. Afiseaza cea mai lunga subsecventa care are toate numerele neprime.")
-    print("3. Afiseaza cea mai lunga subsecventa care are media numerelor mai mia decat o valoare citita.")
+    print("3. Afiseaza cea mai lunga subsecventa care are media numerelor mai mica decat o valoare citita.")
     print("4. Afiseaza cea mai lunga subsecventa care are numerele ordonate crescator.")
     print("5. Iesire")
 
