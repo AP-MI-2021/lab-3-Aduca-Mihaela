@@ -2,7 +2,8 @@ def print_menu():
     print("1. Citire lista")
     print("2. Afiseaza cea mai lunga subsecventa care are toate numerele neprime.")
     print("3. Afiseaza cea mai lunga subsecventa care are media numerelor mai mia decat o valoare citita.")
-    print("4. Iesire")
+    print("4. Afiseaza cea mai lunga subsecventa care are numerele ordonate crescator.")
+    print("5. Iesire")
 
 
 def citire_lista():
@@ -115,12 +116,52 @@ def test_get_longest_average_below():
     assert get_longest_average_below([2, 3, 5, 7, 8, 9, 10, 5473, 2, 4, 5, 457], 18) == [2, 3, 5, 7, 8, 9, 10]
 
 
+def ordine_crescatoare(l: list[int]):
+    """
+    Verifica daca 2 numere sunt ordonate crescator.
+    :param l:lista de nr intregi
+    :return:True, daca elementele sunt ordonate crescator sau False in caz contrar.
+    """
+    for i in range(len(l) - 1):
+        if l[i] > l[i + 1]:
+            return False
+    return True
+
+def test_ordine_crescatoare():
+    assert ordine_crescatoare([2,5,7,9]) is True
+    assert ordine_crescatoare([9,2,7,5]) is False
+    assert ordine_crescatoare([3,6,7,8]) is True
+
+def get_longest_sorted_asc(l: list[int]):
+    """
+    Determina cea mai lunga subsecventa care are numerele ordonate crescator.
+    :param l: lista de numere intregi.
+    :return: cea mai lunga subsecventa care are numerele ordonate crescator.
+    """
+
+    sec_max = []
+    for i in range(len(l)):
+        for j in range(i, len(l)):
+            if ordine_crescatoare(l[i:j + 1]) is True and (len(l[i:j + 1]) > len(sec_max)):
+                sec_max = l[i:j + 1]
+    return sec_max
+
+
+def test_get_longest_sorted_asc():
+    assert get_longest_sorted_asc([1, 5, 6, 1, 2, 3, 4, 5]) == [1, 2, 3, 4, 5]
+    assert get_longest_sorted_asc([1, 2, 3, 1, 0, 5, 6, 7]) == [0, 5, 6, 7]
+
+
+
 def main():
     test_is_not_prime()
     test_is_all_not_prime()
     test_get_longest_all_not_prime()
     test_numbers_average()
     test_get_longest_average_below()
+    test_ordine_crescatoare()
+    test_get_longest_sorted_asc()
+
 
     l = []
     while True:
@@ -134,11 +175,15 @@ def main():
             average = input("Introduceti valoarea: ")
             print(get_longest_average_below(l, average))
         elif optiune == "4":
+            print(get_longest_sorted_asc(l))
+        elif optiune == "5":
             break
         else:
             print("Optiune gresita! Selectati alta optiune.")
 
 
-if __name__ == '__main__':
-    main()
 
+
+if __name__ == '__main__':
+
+ main()
