@@ -179,7 +179,7 @@ def main():
         elif optiune == "5":
             break
         else:
-            print("Optiune gresita! Selectati alta optiune.")
+            print("Optiune gresita! Reincercati!")
 
 
 
