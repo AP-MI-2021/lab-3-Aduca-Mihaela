@@ -164,7 +164,7 @@ def main():
         print_menu()
         optiune = input("dati optiunea: ")
         if optiune == "1":
-            citire_lista()
+            l = citire_lista()
         elif optiune == "2":
             print(get_longest_all_not_prime(l))
         elif optiune == "3":
