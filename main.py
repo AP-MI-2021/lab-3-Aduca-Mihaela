@@ -8,70 +8,68 @@ def print_menu():
 
 def citire_lista():
     l = []
-    givenstring = input(" Dati numerele din lista, separate prin virgula")
-    numersasstring = givenstring.split(", ")
-    for x in numersasstring:
-        l.append(int(x))
+    n = int(input("Dati numarul de elem din lista: "))
+    for i in range(n):
+        l.append(int(input("l[" + str(i) + "]= ")))
     return l
 
-
-def is_not_prime(x):
+def is_prime(x):
     """
-    Determina daca un numar nu este prim.
-    :return:returneaza True daca numarul nu este prim, sau False in caz contrar.
+    Determina daca un numar este prim.
+    :param x: nr intreg
+    :return: True daca numarul este prim sau False in caz contrar.
     """
     if x < 2:
-        return True
-    for i in range(2, x // 2 + 1):
-        if x % i == 0:
-            return True
-    return False
+        return False
+    else:
+        for i in range(2, x // 2 + 1):
+            if x % i == 0:
+                return False
+    return True
+
+def test_is_prime():
+    assert is_prime(13) is True
+    assert is_prime(1) is False
+    assert is_prime(2) is True
 
 
-def test_is_not_prime():
-    assert is_not_prime(5) is False
-    assert is_not_prime(-1) is True
-    assert is_not_prime(4) is True
-    assert is_not_prime(7) is False
-
-
-def is_all_not_prime(l):
+def is_all_not_prime (l):
     """
-    Verifica daca o lista aare elementele neprime.
-    :param l: lista de numere intregi
-    :return: True daca toate elementele sunt neprime, False in caz contrar.
+    Determina daca toate numerele dintr-o lista sunt prime
+    :param l: O lista de numere intregi
+    :return: True daca toate numerele dintr-o lista sunt prime sau False, in caz contar.
     """
     for i in l:
-        if is_not_prime(i):
-            return True
-    return False
+        if is_prime(i):
+            return False
+    return True
 
 
 def test_is_all_not_prime():
-    assert is_all_not_prime([3, 5, 7]) is False
-    assert is_all_not_prime([]) is False
-    assert is_all_not_prime([2, 8, 4]) is True
+    assert is_all_not_prime([]) is True
+    assert is_all_not_prime([1, 2, 3]) is False
+    assert is_all_not_prime([1, 4, 8, 9]) is True
 
 
 def get_longest_all_not_prime(l):
     """
     Determina cea mai lunga subsecventa de numere care are toate numerele neprime.
     :param l: O lista de numere intregi
-    :return: Returneaza cea mai lunga subsecventa de numere neprime dintr-o lista.
+    :return: Afiseaza cea mai lunga subsecventa de numere neprime dintr-o lista.
     """
-
     secv_max = []
+
     for i in range(len(l)):
         for j in range(i, len(l)):
-            if is_not_prime(l[i: j + 1]) and len(l[i: j + 1]) > len(secv_max):
+            if is_all_not_prime(l[i: j + 1]) and len(l[i: j + 1]) > len(secv_max):
                 secv_max = l[i: j + 1]
     return secv_max
 
 
 def test_get_longest_all_not_prime():
-    assert get_longest_all_not_prime([1, 2, 3, 4, 6, 8]) == [4, 6, 8]
-    assert get_longest_all_not_prime([2, 7, 9, 4, 6, 12, 8, 1]) == [4, 6, 12, 8]
-
+    assert get_longest_all_not_prime([]) == []
+    assert get_longest_all_not_prime([2, 3, 5, 7]) == []
+    assert get_longest_all_not_prime([1, 2, 3, 4, 6, 12, 14, 5, 7, 2, 8, 10, 26]) == [4, 6, 12, 14]
 
 def numbers_average(l):
     """
@@ -100,7 +98,7 @@ def get_longest_average_below(l, average):
     Determina cea mai lunga subsecventa care are media numerelor mai mica decat o valoare citita.
     :param l: lista de numere intregi
     :param average: numar intreg
-    :return:cea mai lunga subsecventa care are media numerelor mai mica decat average. 
+    :return:cea mai lunga subsecventa care are media numerelor mai mica decat average.
     """
     secv_max = []
 
@@ -112,7 +110,7 @@ def get_longest_average_below(l, average):
 
 
 def test_get_longest_average_below():
-    assert get_longest_average_below([2, 4, 6, 8, 7, 20, 3, 5, 7], 10) == [2, 4, 6, 8, 7]
+    assert get_longest_average_below([],5) == []
     assert get_longest_average_below([2, 3, 5, 7, 8, 9, 10, 5473, 2, 4, 5, 457], 18) == [2, 3, 5, 7, 8, 9, 10]
 
 
@@ -152,16 +150,14 @@ def test_get_longest_sorted_asc():
     assert get_longest_sorted_asc([1, 2, 3, 1, 0, 5, 6, 7]) == [0, 5, 6, 7]
 
 
-
 def main():
-    test_is_not_prime()
+    test_is_prime()
     test_is_all_not_prime()
     test_get_longest_all_not_prime()
     test_numbers_average()
     test_get_longest_average_below()
     test_ordine_crescatoare()
     test_get_longest_sorted_asc()
-
 
     l = []
     while True:
@@ -181,9 +177,5 @@ def main():
         else:
             print("Optiune gresita! Reincercati!")
 
-
-
-
 if __name__ == '__main__':
-
- main()
+    main()
