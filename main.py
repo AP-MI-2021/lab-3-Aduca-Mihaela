@@ -1,7 +1,7 @@
 def print_menu():
     print("1. Citire lista")
     print("2. Afiseaza cea mai lunga subsecventa care are toate numerele neprime.")
-    print("3. Afiseaza cea mai lunga subsecventa care are media numerelor mai mica decat o valoare citita.")
+    print("3. Afiseaza cea mai lunga subsecventa care are toate numerele prime.")
     print("4. Afiseaza cea mai lunga subsecventa care are numerele ordonate crescator.")
     print("5. Iesire")
 
@@ -35,9 +35,9 @@ def test_is_prime():
 
 def is_all_not_prime (l):
     """
-    Determina daca toate numerele dintr-o lista sunt prime
-    :param l: O lista de numere intregi
-    :return: True daca toate numerele dintr-o lista sunt prime sau False, in caz contar.
+    Determina daca toate numerele dintr-o lista nu sunt prime
+    :param l: o lista de numere intregi
+    :return: True daca toate numerele dintr-o lista nu sunt prime sau False, in caz contar.
     """
     for i in l:
         if is_prime(i):
@@ -51,18 +51,17 @@ def test_is_all_not_prime():
     assert is_all_not_prime([1, 4, 8, 9]) is True
 
 
-def get_longest_all_not_prime(l):
-    """
+def get_longest_all_not_prime(lista):
+    '''
     Determina cea mai lunga subsecventa de numere care are toate numerele neprime.
-    :param l: O lista de numere intregi
+    :param lista: o lista de numere intregi
     :return: Afiseaza cea mai lunga subsecventa de numere neprime dintr-o lista.
-    """
+    '''
     secv_max = []
-
-    for i in range(len(l)):
-        for j in range(i, len(l)):
-            if is_all_not_prime(l[i: j + 1]) and len(l[i: j + 1]) > len(secv_max):
-                secv_max = l[i: j + 1]
+    for i in range(len(lista)):
+        for j in range(i, len(lista)):
+            if is_all_not_prime(lista[i:j+1]) and len(lista[i:j+1]) > len(secv_max):
+                secv_max = lista[i:j+1]
     return secv_max
 
 
@@ -71,55 +70,44 @@ def test_get_longest_all_not_prime():
     assert get_longest_all_not_prime([2, 3, 5, 7]) == []
     assert get_longest_all_not_prime([1, 2, 3, 4, 6, 12, 14, 5, 7, 2, 8, 10, 26]) == [4, 6, 12, 14]
 
-def numbers_average(l):
-    """
-    Determina media aritmetica a  numerelor dintr-o lista.
-    :param l: o lista de numere
-    :return: Media aritmetica a numerelor din lista data.
-    """
-    sum_nr = 0
-    count_nr = 0
-    for i in l:
-        sum_nr = sum_nr + i
-        count_nr = count_nr + 1
-    if count_nr == 0:
-        return 0
-    return sum_nr / count_nr
+def is_all_prime(lista):
+    '''
+    Determina daca toate numerele dintr-o lista nu sunt prime
+    :param lista: o lista de numere intregi
+    :return:True daca toate numerele dintr-o lista sunt prime sau False, in caz contar.
+    '''
+    for i in lista:
+        if not is_prime(i):
+            return False
+    return True
 
 
-def test_numbers_average():
-    assert numbers_average([2, 7, 9]) == 6
-    assert numbers_average([4, 5]) == 4.5
-    assert numbers_average([2, 4, 6, 8]) == 5
-
-
-def get_longest_average_below(l, average):
-    """
-    Determina cea mai lunga subsecventa care are media numerelor mai mica decat o valoare citita.
-    :param l: lista de numere intregi
-    :param average: numar intreg
-    :return:cea mai lunga subsecventa care are media numerelor mai mica decat average.
-    """
-    secv_max = []
-
-    for i in range(len(l)):
-        for j in range(i, len(l)):
-            if numbers_average(l[i: j + 1]) < average and len(l[i: j + 1]) > len(secv_max):
-                secv_max = l[i: j + 1]
+def get_longest_all_primes(lista):
+    '''
+    Determina cea mai lunga subsecventa de numere care are toate numerele prime.
+    :param lista: o lista de numere intregi.
+    :return: Afiseaza cea mai lunga subsecventa de numere prime dintr-o lista.
+    '''
+    secv_max=[]
+    for i in range(len(lista)):
+        for j in range(i,len(lista)):
+            if is_all_prime(lista[i:j+1]) and len(lista[i:j+1]) > len(secv_max):
+                secv_max = lista[i:j+1]
     return secv_max
 
 
-def test_get_longest_average_below():
-    assert get_longest_average_below([],5) == []
-    assert get_longest_average_below([2, 3, 5, 7, 8, 9, 10, 5473, 2, 4, 5, 457], 18) == [2, 3, 5, 7, 8, 9, 10]
+def test_get_longest_all_primes():
+    assert get_longest_all_primes([3, 5, 7, 8]) == [3, 5, 7]
+    assert get_longest_all_primes([12, 4, 8, 9]) == []
+    assert get_longest_all_primes([3, 7, 15, 2, 3, 5]) == [2, 3, 5]
+    assert get_longest_all_primes([3, 7, 13, 17, 23]) == [3, 7, 13, 17, 23]
 
-
-def ordine_crescatoare(l: list[int]):
-    """
+def ordine_crescatoare(l):
+    '''
     Verifica daca 2 numere sunt ordonate crescator.
     :param l:lista de nr intregi
-    :return:True, daca elementele sunt ordonate crescator sau False in caz contrar.
-    """
+    :return: True, daca elementele sunt ordonate crescator sau False in caz contrar
+    '''
     for i in range(len(l) - 1):
         if l[i] > l[i + 1]:
             return False
@@ -130,7 +118,7 @@ def test_ordine_crescatoare():
     assert ordine_crescatoare([9,2,7,5]) is False
     assert ordine_crescatoare([3,6,7,8]) is True
 
-def get_longest_sorted_asc(l: list[int]):
+def get_longest_sorted_asc(l):
     """
     Determina cea mai lunga subsecventa care are numerele ordonate crescator.
     :param l: lista de numere intregi.
@@ -154,8 +142,7 @@ def main():
     test_is_prime()
     test_is_all_not_prime()
     test_get_longest_all_not_prime()
-    test_numbers_average()
-    test_get_longest_average_below()
+    test_get_longest_all_primes()
     test_ordine_crescatoare()
     test_get_longest_sorted_asc()
 
@@ -168,8 +155,7 @@ def main():
         elif optiune == "2":
             print(get_longest_all_not_prime(l))
         elif optiune == "3":
-            average = input("Introduceti valoarea: ")
-            print(get_longest_average_below(l, average))
+            print(get_longest_all_primes(l))
         elif optiune == "4":
             print(get_longest_sorted_asc(l))
         elif optiune == "5":
